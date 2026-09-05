@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informasi Menu - Makanan Bergizi Gratis | SPPG Jatilawang Tunjung 2</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Firebase JS SDK (Compat mode for browser script compatibility) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #e0f2fe;
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #38bdf8;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="bg-sky-100 min-h-screen text-slate-800 antialiased">
+
+  <!-- ==================== VIEW 1: FRONTEND PUBLIC ==================== -->
+  <div id="frontendView" class="min-h-screen pb-12 flex flex-col justify-between">
+    <div>
+      <!-- Header Section dengan Logo -->
+      <header class="bg-gradient-to-r from-sky-600 via-sky-500 to-blue-600 text-white shadow-lg sticky top-0 z-30">
+        <div class="max-w-5xl mx-auto px-4 py-4 sm:py-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          
+          <!-- Logo & Judul Header -->
+          <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+            <!-- Frame Logo Multilogo (1 - 5 Logo) -->
+            <div id="headerLogosContainer" class="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
+              <!-- Dynamic logos rendered here -->
+            </div>
+
+            <!-- Teks Header -->
+            <div>
+              <div class="inline-flex items-center justify-center sm:justify-start p-1.5 px-3 bg-white/10 rounded-full mb-1 backdrop-blur-md border border-white/20">
+                <i class="fa-solid font-bold fa-utensils mr-2 text-amber-300 text-xs"></i>
+                <span class="text-[11px] font-semibold tracking-wider uppercase text-sky-100">Program Gizi Nasional</span>
+              </div>
+              <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight drop-shadow-sm">
+                MAKANAN BERGIZI GRATIS
+              </h1>
+              <p class="text-xs sm:text-sm font-medium text-sky-100 mt-0.5 tracking-wide">
+                SPPG JATILAWANG TUNJUNG 2
+              </p>
+            </div>
+          </div>
+
+          <!-- Status Connection Badge (OTOMATIS UNTUK SISWA) -->
+          <div id="publicCloudBadge" class="flex items-center gap-2 bg-white/15 px-3 py-1.5 rounded-full border border-white/20 backdrop-blur-md text-xs font-semibold text-sky-50">
+            <span id="statusDot" class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+            <span id="statusText">Menghubungkan ke Cloud...</span>
+          </div>
+
+        </div>
+      </header>
+
+      <main class="max-w-5xl mx-auto px-4 mt-6 space-y-6">
+
+        <!-- Warning Banner -->
+        <div class="bg-red-50 border-2 border-red-500 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-red-500 text-white px-4 py-1 rounded-bl-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+            <i class="fa-solid fa-triangle-exclamation"></i> Penting
+          </div>
+          
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-full bg-red-100 border border-red-200 flex items-center justify-center text-red-600 shrink-0">
+              <i class="fa-solid fa-bullhorn text-xl"></i>
+            </div>
+            <h2 class="text-lg sm:text-xl font-black text-red-700 tracking-wide">
+              WAJIB DIPERHATIKAN!!!
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm text-red-950 font-medium">
+            <div class="bg-white/80 p-3.5 rounded-xl border border-red-200 shadow-xs flex gap-3 items-start">
+              <span class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
+              <div>
+                <strong class="text-red-900 block font-bold mb-0.5">MAKAN SEKARANG, DI SEKOLAH</strong>
+                habiskan paling lambat 2 jam setelah ompreng diterima. Makanan ini dimasak tanpa bahan pengawet.
+              </div>
+            </div>
+
+            <div class="bg-white/80 p-3.5 rounded-xl border border-red-200 shadow-xs flex gap-3 items-start">
+              <span class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
+              <div>
+                <strong class="text-red-900 block font-bold mb-0.5">JANGAN DIBAWA PULANG</strong>
+                makanan yang dibawa pulang cepat basi dan beresiko menyebabkan sakit perut atau pencernaan.
+              </div>
+            </div>
+
+            <div class="bg-white/80 p-3.5 rounded-xl border border-red-200 shadow-xs flex gap-3 items-start">
+              <span class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</span>
+              <div>
+                <strong class="text-red-900 block font-bold mb-0.5">OMPRENG DIKEMBALIKAN KE PETUGAS</strong>
+                Setelah selesai makan, kembalikan ompreng kepada petugas.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Date Selection Controls -->
+        <section class="bg-white rounded-2xl p-5 shadow-md border border-sky-100">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                <i class="fa-regular fa-calendar-days text-sky-600"></i>
+                Pilih Tanggal Menu
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">Menampilkan menu hari ini dan 1 minggu ke belakang</p>
+            </div>
+            
+            <div class="w-full sm:w-auto flex items-center gap-2">
+              <input type="date" id="datePicker" class="bg-sky-50 border border-sky-200 text-slate-700 font-semibold rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 w-full sm:w-auto cursor-pointer">
+              <button id="todayBtn" class="bg-sky-600 hover:bg-sky-700 text-white font-medium text-xs px-3 py-2.5 rounded-xl transition shadow-xs whitespace-nowrap flex items-center gap-1.5">
+                <i class="fa-solid fa-rotate-right text-[10px]"></i> Hari Ini
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Date Selector Buttons -->
+          <div id="quickDateContainer" class="flex gap-2 overflow-x-auto pt-4 custom-scrollbar pb-2">
+            <!-- Javascript populated date pills -->
+          </div>
+        </section>
+
+        <!-- Menu Category Navigation Grid Cards -->
+        <section class="bg-white rounded-2xl p-5 shadow-md border border-sky-100">
+          <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
+            <div>
+              <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                <i class="fa-solid fa-border-all text-sky-600"></i>
+                Pilih Kategori Menu
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">Klik kotak porsi/kategori di bawah untuk melihat detail menu & gizi</p>
+            </div>
+          </div>
+
+          <!-- Navigation Grid of Cards -->
+          <div id="categoryGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+            <!-- Populated dynamically via JavaScript -->
+          </div>
+        </section>
+
+        <!-- Main Content Area: Menu Display & Nutrition -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          <!-- Left Panel: Menu Items -->
+          <section class="lg:col-span-7 bg-white rounded-2xl p-6 shadow-md border border-sky-100 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
+                <div>
+                  <span id="selectedDateDisplay" class="text-xs font-semibold uppercase tracking-wider text-sky-600 bg-sky-50 px-2.5 py-1 rounded-md border border-sky-100">
+                    <!-- Dynamic Date Text -->
+                  </span>
+                  <h3 id="categoryTitle" class="text-xl font-extrabold text-slate-800 mt-2">
+                    Menu Porsi Besar
+                  </h3>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-100 text-sky-600 flex items-center justify-center text-xl font-bold">
+                  <i id="categoryIcon" class="fa-solid fa-bowl-food"></i>
+                </div>
+              </div>
+
+              <!-- Featured Category Image Display Banner -->
+              <div class="relative w-full h-44 sm:h-52 rounded-xl overflow-hidden mb-4 border border-slate-200 shadow-xs bg-slate-100 group">
+                <img id="categoryBannerImg" src="" alt="Foto Menu Makanan" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/600x300/0284c7/ffffff?text=Foto+Menu+Makanan';">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent flex items-end p-3">
+                  <span id="categoryBannerLabel" class="text-white text-xs font-semibold backdrop-blur-md bg-black/40 px-3 py-1 rounded-lg border border-white/20">
+                    Sajian Makanan Bergizi
+                  </span>
+                </div>
+              </div>
+
+              <p id="categoryDesc" class="text-xs text-slate-500 mb-5 leading-relaxed">
+                Disesuaikan khusus untuk pemenuhan gizi remaja / siswa porsi standar tinggi.
+              </p>
+
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+                Komposisi Hidangan Hari Ini:
+              </h4>
+
+              <ul id="menuList" class="space-y-3">
+                <!-- Javascript dynamic list -->
+              </ul>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+              <span><i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Standar Gizi Terverifikasi</span>
+              <span>Dapur SPPG Jatilawang 2</span>
+            </div>
+          </section>
+
+          <!-- Right Panel: Nutrition Facts -->
+          <section class="lg:col-span-5 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-6 shadow-xl relative overflow-hidden flex flex-col justify-between">
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-sky-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div>
+              <div class="flex items-center justify-between border-b border-slate-700/60 pb-3 mb-4">
+                <h3 class="font-bold text-base tracking-wide flex items-center gap-2 text-sky-300">
+                  <i class="fa-solid fa-chart-pie"></i> Informasi Nilai Gizi
+                </h3>
+                <span class="text-[10px] bg-sky-900/60 text-sky-300 px-2 py-0.5 rounded border border-sky-700/50">Per Porsi</span>
+              </div>
+
+              <!-- Detailed Nutrition Progress Bars -->
+              <div class="space-y-4" id="nutritionContainer">
+                <!-- Dynamic Nutrition List -->
+              </div>
+            </div>
+
+            <!-- Additional Nutrition Note -->
+            <div id="nutritionNote" class="mt-6 p-3 bg-slate-800/50 border border-slate-700/50 rounded-xl text-xs text-slate-300 leading-relaxed flex items-start gap-2">
+              <i class="fa-solid fa-circle-info text-sky-400 text-sm mt-0.5 shrink-0"></i>
+              <span>Memenuhi 30-35% kebutuhan AKG harian anak usia sekolah. Dilengkapi dengan serat & mineral seimbang.</span>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Info Footnote Banner -->
+        <div class="flex items-center justify-center bg-white rounded-xl p-4 shadow-xs border border-sky-100 text-xs text-slate-500 text-center">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-sky-600 text-base"></i>
+            <span>Semua menu disiapkan dengan bahan baku segar dari petani lokal Jatilawang.</span>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <footer class="mt-12 text-center text-xs text-slate-500 space-y-2">
+      <p>© SPPG Jatilawang Tunjung 2 - Layanan Informasi Gizi Makanan Gratis</p>
+      <p class="text-slate-400">Pusat Layanan Kesehatan dan Nutrisi Masyarakat</p>
+
+      <!-- Portal Terpisah Untuk Masuk Admin -->
+      <div class="pt-4 border-t border-sky-200/60 max-w-xs mx-auto">
+        <button onclick="goToLoginView()" class="text-slate-400 hover:text-slate-600 text-[11px] font-semibold flex items-center justify-center gap-1.5 mx-auto transition">
+          <i class="fa-solid fa-user-gear"></i> Kelola Dapur & Menu (Admin)
+        </button>
+      </div>
+    </footer>
+  </div>
+
+
+  <!-- ==================== VIEW 2: DEDICATED ADMIN LOGIN PAGE ==================== -->
+  <div id="loginView" class="min-h-screen bg-slate-900 text-slate-100 hidden flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-slate-800 rounded-2xl p-6 sm:p-8 border border-slate-700 shadow-2xl space-y-6 relative overflow-hidden">
+      
+      <div class="absolute -top-12 -right-12 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div class="text-center space-y-2">
+        <div class="w-14 h-14 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center mx-auto text-slate-950 font-black text-2xl shadow-lg">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <h2 class="text-xl font-black text-white tracking-wide">Portal Masuk Petugas</h2>
+        <p class="text-xs text-slate-400">Masukkan Username & Password untuk Mengelola Menu SPPG</p>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Username Admin:</label>
+          <div class="relative">
+            <input type="text" id="adminUsernameInput" placeholder="Username (Default: admin)" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-400 pl-10" required>
+            <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Password Admin:</label>
+          <div class="relative">
+            <input type="password" id="adminPasswordInput" placeholder="Password (Default: admin123)" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-400 pl-10" required>
+            <i class="fa-solid fa-key absolute left-3.5 top-3.5 text-slate-500 text-sm"></i>
+          </div>
+          <p id="loginErrorMessage" class="text-xs text-red-400 font-semibold mt-2 hidden flex items-center gap-1">
+            <i class="fa-solid fa-circle-exclamation"></i> Username atau Password yang Anda masukkan salah.
+          </p>
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-extrabold py-3 rounded-xl transition shadow-lg text-sm flex items-center justify-center gap-2">
+          <i class="fa-solid fa-right-to-bracket"></i> Masuk Ke Panel Admin
+        </button>
+      </form>
+
+      <div class="pt-2 text-center border-t border-slate-700/80">
+        <button onclick="switchToFrontend()" class="text-slate-400 hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 mx-auto transition">
+          <i class="fa-solid fa-arrow-left"></i> Kembali ke Halaman Utama Warga
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== VIEW 3: BACKEND ADMIN PANEL ==================== -->
+  <div id="backendView" class="min-h-screen bg-slate-900 text-slate-100 hidden">
+    
+    <!-- Admin Top Navbar -->
+    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-lg">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div>
+            <h1 class="font-extrabold text-white text-base tracking-wide flex items-center gap-2">
+              PANEL DASHBOARD ADMIN 
+              <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Online</span>
+            </h1>
+            <p class="text-xs text-slate-400">SPPG Jatilawang Tunjung 2 - Sistem Manajemen Konten</p>
+          </div>
+        </div>
+
+        <button onclick="switchToFrontend()" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 transition shadow-md">
+          <i class="fa-solid fa-globe"></i>
+          <span>Kembali ke Halaman Utama (Frontend)</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Admin Main Container -->
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+      
+      <!-- Section 0: Firebase Sync Config -->
+      <section class="bg-slate-800/90 rounded-2xl p-6 border-2 border-sky-500/50 shadow-2xl space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-700 pb-3">
+          <div>
+            <h2 class="text-base font-extrabold uppercase tracking-wider text-sky-400 flex items-center gap-2">
+              <i class="fa-solid fa-cloud-arrow-up text-amber-400 text-lg"></i>
+              Pengaturan Sinkronisasi Cloud (Firebase Realtime Database)
+            </h2>
+            <p class="text-xs text-slate-300 mt-1">
+              Salin SELURUH teks dari Firebase Console dan tempel di kotak bawah untuk memperbarui kunci di perangkat ini.
+            </p>
+          </div>
+          <div id="firebaseStatusTag" class="text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 self-start sm:self-auto">
+            Belum Terhubung Cloud
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-200 mb-1.5">
+            Firebase Configuration Text / Object:
+          </label>
+          <textarea id="firebaseConfigInput" rows="5" placeholder='Contoh:
+const firebaseConfig = {
+  apiKey: "AIzaSyD-EXAMPLE_KEY_123456789",
+  authDomain: "sppg-jatilawang.firebaseapp.com",
+  databaseURL: "https://sppg-jatilawang-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "sppg-jatilawang",
+  storageBucket: "sppg-jatilawang.appspot.com",
+  messagingSenderId: "123456789012",
+  appId: "1:123456789012:web:abc123def456"
+};' class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-emerald-400 font-mono focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400"></textarea>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+          <button type="button" onclick="saveFirebaseConfig()" class="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 transition shadow-md">
+            <i class="fa-solid fa-plug"></i> Simpan & Hubungkan Firebase
+          </button>
+          <button type="button" onclick="disconnectFirebase()" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/40 font-semibold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-power-off"></i> Hapus Konfigurasi Cloud
+          </button>
+        </div>
+      </section>
+
+      <!-- Logo Header Management Section -->
+      <section class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 shadow-xl space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-700 pb-3">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+            <i class="fa-solid fa-images"></i> Kelola Logo Header (1 - 5 Logo)
+          </h2>
+          <button id="addLogoBtn" type="button" onclick="addHeaderLogoSlot()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition self-start sm:self-auto">
+            <i class="fa-solid fa-plus"></i> Tambah Logo (Maks 5)
+          </button>
+        </div>
+
+        <!-- Dynamic List of Logo Editors -->
+        <div id="adminLogosListContainer" class="space-y-4">
+          <!-- Rendered via JS -->
+        </div>
+
+        <div class="pt-2 flex justify-end">
+          <button type="button" onclick="saveHeaderLogoChanges()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 transition shadow-md">
+            <i class="fa-solid fa-floppy-disk"></i> Simpan Semua Logo Header
+          </button>
+        </div>
+      </section>
+
+      <!-- Selection Filter Controls -->
+      <section class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 shadow-xl backdrop-blur-md">
+        <h2 class="text-sm font-bold uppercase tracking-wider text-amber-400 mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-filter"></i> Pilih Tanggal & Kategori Makanan Yang Akan Dirubah
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-700/80">
+            <label class="block font-semibold text-xs text-slate-300 mb-1.5">Tanggal Operasional Dapur:</label>
+            <input type="date" id="adminDatePicker" onchange="loadAdminDataForSelection()" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm text-white font-semibold focus:outline-none focus:border-amber-400">
+          </div>
+          <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-700/80">
+            <label class="block font-semibold text-xs text-slate-300 mb-1.5">Kategori Porsi Menu:</label>
+            <select id="adminCategorySelect" onchange="loadAdminDataForSelection()" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm text-white font-semibold focus:outline-none focus:border-amber-400">
+              <option value="porsi_besar">Porsi Besar</option>
+              <option value="porsi_kecil">Porsi Kecil</option>
+              <option value="balita">Balita</option>
+              <option value="ibu_hamil_menyusui">Ibu Hamil & Menyusui</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Editor Forms Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Column 1: Media & Items (7 Cols) -->
+        <div class="lg:col-span-7 space-y-6">
+
+          <!-- Section A: Media Banner & Description -->
+          <section class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 shadow-xl space-y-4">
+            <h3 class="font-bold text-white text-base border-b border-slate-700 pb-3 flex items-center gap-2">
+              <i class="fa-solid fa-image text-sky-400"></i>
+              Media Banner & Deskripsi Sajian
+            </h3>
+
+            <!-- Image Upload Options -->
+            <div class="space-y-3">
+              <label class="block text-xs font-semibold text-slate-300">Unggah Gambar Dari HP / PC:</label>
+              
+              <div class="flex items-center gap-3">
+                <label class="cursor-pointer bg-sky-600 hover:bg-sky-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0">
+                  <i class="fa-solid fa-folder-open text-amber-300"></i>
+                  <span>Pilih Dari Galeri / PC</span>
+                  <input type="file" id="adminFileInput" accept="image/*" onchange="handleImageFileUpload(event)" class="hidden">
+                </label>
+                <span class="text-[11px] text-slate-400 italic">Pilih file foto dari perangkat Anda</span>
+              </div>
+
+              <!-- Image Preview Box -->
+              <div class="relative w-full h-36 bg-slate-900 border border-slate-700 rounded-xl overflow-hidden flex items-center justify-center">
+                <img id="adminImgPreview" src="" alt="Pratinjau Gambar" class="w-full h-full object-cover">
+                <span id="adminImgPreviewFallback" class="text-xs text-slate-500 hidden">Belum ada gambar terpilih</span>
+              </div>
+
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">Atau masukkan URL / Nama File Manual:</label>
+                <input type="text" id="adminImgUrl" oninput="updateImagePreviewFromInput()" placeholder="Contoh: porsi_besar.jpg atau URL https://" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:border-sky-400 focus:outline-none">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Deskripsi Ringkas Kategori Menu:</label>
+              <textarea id="adminDesc" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white focus:border-sky-400 focus:outline-none"></textarea>
+            </div>
+          </section>
+
+          <!-- Section B: Menu Composition List -->
+          <section class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 shadow-xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+              <h3 class="font-bold text-white text-base flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-emerald-400"></i>
+                Komposisi Hidangan Makanan
+              </h3>
+              <button onclick="addAdminMenuItem()" type="button" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition">
+                <i class="fa-solid fa-plus"></i> Tambah Bahan
+              </button>
+            </div>
+
+            <div id="adminMenuList" class="space-y-3">
+              <!-- Populated via JavaScript -->
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Column 2: Nutrition Info & Account Settings (5 Cols) -->
+        <div class="lg:col-span-5 space-y-6">
+
+          <!-- Nutrition Facts Form -->
+          <section class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 shadow-xl space-y-5">
+            <h3 class="font-bold text-white text-base border-b border-slate-700 pb-3 flex items-center gap-2">
+              <i class="fa-solid fa-chart-pie text-amber-400"></i>
+              Kelola Informasi Nilai Gizi
+            </h3>
+
+            <!-- Energy -->
+            <div class="grid grid-cols-2 gap-3 bg-slate-900/80 p-3.5 rounded-xl border border-slate-700">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Energi (Kcal):</label>
+                <input type="number" id="adminCalories" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2 font-black text-amber-400 text-sm focus:outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Persentase Bar (%):</label>
+                <input type="number" id="adminEnergyPct" min="0" max="100" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2 text-sm text-white focus:outline-none">
+              </div>
+            </div>
+
+            <!-- Nutrients Grid -->
+            <div class="space-y-3">
+              <!-- Protein -->
+              <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700/80 grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[11px] font-semibold text-emerald-400 mb-1">Protein (Gram):</label>
+                  <input type="text" id="adminProteinVal" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-400 mb-1">Persentase Bar (%):</label>
+                  <input type="number" id="adminProteinPct" min="0" max="100" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                </div>
+              </div>
+
+              <!-- Carbs -->
+              <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700/80 grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[11px] font-semibold text-sky-400 mb-1">Karbohidrat (Gram):</label>
+                  <input type="text" id="adminCarbsVal" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-400 mb-1">Persentase Bar (%):</label>
+                  <input type="number" id="adminCarbsPct" min="0" max="100" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                </div>
+              </div>
+
+              <!-- Fat -->
+              <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700/80 grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[11px] font-semibold text-amber-400 mb-1">Lemak (Gram):</label>
+                  <input type="text" id="adminFatVal" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-400 mb-1">Persentase Bar (%):</label>
+                  <input type="number" id="adminFatPct" min="0" max="100" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                </div>
+              </div>
+
+              <!-- Fiber -->
+              <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700/80 grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[11px] font-semibold text-indigo-400 mb-1">Serat (Gram):</label>
+                  <input type="text" id="adminFiberVal" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-400 mb-1">Persentase Bar (%):</label>
+                  <input type="number" id="adminFiberPct" min="0" max="100" class="w-full bg-slate-800 border border-slate-600 rounded p-1.5 text-xs text-white">
+                </div>
+              </div>
+            </div>
+
+            <!-- Note -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Catatan/Rekomendasi Gizi Ahli:</label>
+              <textarea id="adminNote" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none"></textarea>
+            </div>
+          </section>
+
+          <!-- Change Account Credentials Section -->
+          <section class="bg-slate-800/80 rounded-2xl p-6 border border-slate-700 shadow-xl space-y-4">
+            <h3 class="font-bold text-white text-base border-b border-slate-700 pb-3 flex items-center gap-2">
+              <i class="fa-solid fa-user-lock text-amber-400"></i>
+              Keamanan & Akun Admin
+            </h3>
+
+            <div class="space-y-3 text-xs">
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">Username Baru:</label>
+                <input type="text" id="changeUsernameInput" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-400">
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">Password Baru:</label>
+                <input type="password" id="changePasswordInput" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-amber-400">
+              </div>
+
+              <button onclick="saveAccountCredentials()" type="button" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2 rounded-lg transition text-xs flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-key"></i> Simpan Akun Admin Baru
+              </button>
+            </div>
+          </section>
+
+          <!-- Save Action Box -->
+          <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 shadow-xl space-y-3">
+            <button onclick="saveAdminChanges()" type="button" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 px-4 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-sm">
+              <i class="fa-solid fa-floppy-disk text-lg"></i>
+              <span>SIMPAN PERUBAHAN KE LANDING PAGE</span>
+            </button>
+
+            <button onclick="resetDataToDefault()" type="button" class="w-full bg-slate-700 hover:bg-slate-600 text-red-400 hover:text-red-300 font-bold py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 text-xs">
+              <i class="fa-solid fa-arrow-rotate-left"></i>
+              <span>Reset Data ke Awal (Default)</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!-- App Logic Javascript -->
+  <script>
+    // =========================================================================
+    // 📌 PEMBUATAN KONFIGURASI DEFAULT FIREBASE UNTUK PERANGKAT SISWA
+    // Tempelkan kunci Firebase asli Anda di bawah ini agar SELURUH HP siswa
+    // yang membuka link ini 100% OTOMATIS terhubung ke Cloud tanpa menekan apa pun!
+    // =========================================================================
+    const defaultFirebaseConfig = {
+      apiKey: "AIzaSyD-EXAMPLE_KEY_123456789",
+      authDomain: "sppg-jatilawang.firebaseapp.com",
+      databaseURL: "https://sppg-jatilawang-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "sppg-jatilawang",
+      storageBucket: "sppg-jatilawang.appspot.com",
+      messagingSenderId: "123456789012",
+      appId: "1:123456789012:web:abc123def456"
+    }; 
+
+    let selectedCategory = 'porsi_besar';
+    let dbRef = null;
+
+    // Default Account Credentials
+    const defaultCredentials = {
+      username: "admin",
+      password: "admin123"
+    };
+
+    let adminAuth = JSON.parse(localStorage.getItem('sppg_admin_auth')) || defaultCredentials;
+
+    // Default Header Logos (Supports 1 to 5 logos)
+    const defaultHeaderLogos = ['logo.png'];
+    let storedLogos = localStorage.getItem('sppg_header_logos');
+    let headerLogos = [];
+    if (storedLogos) {
+      try {
+        headerLogos = JSON.parse(storedLogos);
+      } catch(e) {
+        headerLogos = [localStorage.getItem('sppg_header_logo') || 'logo.png'];
+      }
+    } else if (localStorage.getItem('sppg_header_logo')) {
+      headerLogos = [localStorage.getItem('sppg_header_logo')];
+    } else {
+      headerLogos = [...defaultHeaderLogos];
+    }
+
+    // Default Database Template
+    const defaultMenuDatabase = {
+      porsi_besar: {
+        title: "Porsi Besar",
+        icon: "fa-bowl-food",
+        bgGradient: "from-sky-500 to-blue-600",
+        image: "porsi_besar.jpg",
+        fallbackImg: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop",
+        desc: "Disesuaikan khusus untuk pemenuhan gizi remaja / siswa porsi standar tinggi.",
+        note: "Memenuhi 30-35% Angka Kecukupan Gizi (AKG) harian remaja.",
+        items: [
+          { name: "Nasi Putih Pulen", amount: "200 gram", icon: "fa-wheat-awn" },
+          { name: "Ayam Goreng Lengkuas / Semur Daging", amount: "1 Potong Besar (90g)", icon: "fa-drumstick-bite" },
+          { name: "Tahu & Tempe Bacem", amount: "2 Potong (50g)", icon: "fa-cubes" },
+          { name: "Sayur Sop Buncis Wortel & Bakso", amount: "1 Mangkuk (100g)", icon: "fa-carrot" },
+          { name: "Buah Pisang Ambon / Jeruk", amount: "1 Buah", icon: "fa-apple-whole" },
+          { name: "Susu UHT Bebas Gula", amount: "200 ml", icon: "fa-glass-water" }
+        ],
+        nutrition: {
+          calories: "680",
+          energyPercent: 70,
+          protein: { val: "28g", percent: 80, color: "bg-emerald-500" },
+          carbs: { val: "85g", percent: 70, color: "bg-sky-500" },
+          fat: { val: "18g", percent: 45, color: "bg-amber-500" },
+          fiber: { val: "6g", percent: 50, color: "bg-indigo-500" }
+        }
+      },
+      porsi_kecil: {
+        title: "Porsi Kecil",
+        icon: "fa-bowl-rice",
+        bgGradient: "from-amber-400 to-orange-500",
+        image: "porsi_kecil.jpg",
+        fallbackImg: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&auto=format&fit=crop",
+        desc: "Disesuaikan untuk anak-anak kelas rendah / tingkat PAUD-SD awal.",
+        note: "Formulasi khusus porsi kecil dengan tekstur mudah dikunyah.",
+        items: [
+          { name: "Nasi Putih Pulen", amount: "100 gram", icon: "fa-wheat-awn" },
+          { name: "Ayam Suwir Manis / Nuget Daging Lokal", amount: "1 Porsi (50g)", icon: "fa-drumstick-bite" },
+          { name: "Tahu Kukus Lembut", amount: "1 Potong (30g)", icon: "fa-cubes" },
+          { name: "Tumis Buncis & Wortel Potong Dadu", amount: "1/2 Manguk (60g)", icon: "fa-carrot" },
+          { name: "Buah Jeruk Manis", amount: "1 Buah", icon: "fa-apple-whole" }
+        ],
+        nutrition: {
+          calories: "420",
+          energyPercent: 45,
+          protein: { val: "18g", percent: 55, color: "bg-emerald-500" },
+          carbs: { val: "52g", percent: 45, color: "bg-sky-500" },
+          fat: { val: "11g", percent: 30, color: "bg-amber-500" },
+          fiber: { val: "4g", percent: 35, color: "bg-indigo-500" }
+        }
+      },
+      balita: {
+        title: "Balita",
+        icon: "fa-baby",
+        bgGradient: "from-pink-400 to-rose-500",
+        image: "balita.jpg",
+        fallbackImg: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=600&auto=format&fit=crop",
+        desc: "Tekstur lembut, kaya akan DHA, Zat Besi, dan Kalsium untuk pertumbuhan otak.",
+        note: "Bebas penyedap rasa berlebih dan disesuaikan untuk kemudahan cerna balita.",
+        items: [
+          { name: "Nasi Tim Lembut / Bubur Saring", amount: "150 gram", icon: "fa-bowl-rice" },
+          { name: "Cincang Hati Ayam & Daging Sapi", amount: "40 gram", icon: "fa-drumstick-bite" },
+          { name: "Purée Wortel & Labu Kuning", amount: "50 gram", icon: "fa-carrot" },
+          { name: "Sup Kaldu Ceker & Tahu Halus", amount: "1 Mangkok Kecil", icon: "fa-mug-hot" },
+          { name: "Buah Naga Halus / Purée Alpukat", amount: "3 Sendok Makan", icon: "fa-apple-whole" }
+        ],
+        nutrition: {
+          calories: "310",
+          energyPercent: 35,
+          protein: { val: "14g", percent: 40, color: "bg-emerald-500" },
+          carbs: { val: "38g", percent: 35, color: "bg-sky-500" },
+          fat: { val: "10g", percent: 28, color: "bg-amber-500" },
+          fiber: { val: "3g", percent: 25, color: "bg-indigo-500" }
+        }
+      },
+      ibu_hamil_menyusui: {
+        title: "Ibu Hamil & Menyusui",
+        icon: "fa-person-pregnant",
+        bgGradient: "from-emerald-500 to-teal-600",
+        image: "ibu_hamil_menyusui.jpg",
+        fallbackImg: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&auto=format&fit=crop",
+        desc: "Formulasi khusus tinggi Asam Folat, Kalsium, Zat Besi, Protein & ASI Booster alami.",
+        note: "Mendukung kesehatan janin, pencegahan stunting, serta kelancaran produksi ASI.",
+        items: [
+          { name: "Nasi Merah / Nasi Putih Pulen", amount: "200 gram", icon: "fa-wheat-awn" },
+          { name: "Ikan Kembung Bakar / Hati Sapi Tumis", amount: "1 Potong (100g)", icon: "fa-fish" },
+          { name: "Tahu Kukus & Tempe Bacem", amount: "2 Potong", icon: "fa-cubes" },
+          { name: "Sup Daun Katuk, Bayam & Jagung Manis", amount: "1 Mangkuk Besar", icon: "fa-leaf" },
+          { name: "Buah Pepaya Matang / Semangka Segar", amount: "1 Potong Besar", icon: "fa-apple-whole" },
+          { name: "Susu Ibu Hamil/Menyusui & Air Mineral", amount: "500 ml", icon: "fa-glass-water" }
+        ],
+        nutrition: {
+          calories: "750",
+          energyPercent: 85,
+          protein: { val: "35g", percent: 95, color: "bg-emerald-500" },
+          carbs: { val: "90g", percent: 80, color: "bg-sky-500" },
+          fat: { val: "23g", percent: 60, color: "bg-amber-500" },
+          fiber: { val: "8.5g", percent: 70, color: "bg-indigo-500" }
+        }
+      }
+    };
+
+    // Load database from Local Storage
+    let menuDatabase = JSON.parse(localStorage.getItem('sppg_menu_db')) || defaultMenuDatabase;
+
+    // FUNGSI PARSER FIREBASE CONFIG
+    function parseFirebaseConfigInput(input) {
+      if (!input || typeof input !== 'string') return null;
+      
+      const config = {};
+      const keys = ['apiKey', 'authDomain', 'databaseURL', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'];
+
+      keys.forEach(key => {
+        const regex = new RegExp(`(?:["']?${key}["']?)\\s*:\\s*["']?([^"',\\s;{}]+)["']?`, 'i');
+        const match = input.match(regex);
+        if (match && match[1]) {
+          config[key] = match[1].trim();
+        }
+      });
+
+      if (config.apiKey || config.projectId) {
+        if (!config.databaseURL && config.projectId) {
+          config.databaseURL = `https://${config.projectId}-default-rtdb.asia-southeast1.firebasedatabase.app`;
+        }
+        return config;
+      }
+
+      try {
+        const start = input.indexOf('{');
+        const end = input.lastIndexOf('}');
+        if (start !== -1 && end > start) {
+          let cleaned = input.substring(start, end + 1);
+          cleaned = cleaned
+            .replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '')
+            .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?\s*:/g, '"$2":')
+            .replace(/:\s*'([^']*)'/g, ':"$1"')
+            .replace(/,\s*([}\]])/g, '$1');
+          
+          const parsed = JSON.parse(cleaned);
+          if (parsed && (parsed.apiKey || parsed.projectId)) {
+            if (!parsed.databaseURL && parsed.projectId) {
+              parsed.databaseURL = `https://${parsed.projectId}-default-rtdb.asia-southeast1.firebasedatabase.app`;
+            }
+            return parsed;
+          }
+        }
+      } catch (e) {
+        console.warn("Parse JSON fallback error:", e);
+      }
+
+      return null;
+    }
+
+    function saveStorageDB() {
+      localStorage.setItem('sppg_menu_db', JSON.stringify(menuDatabase));
+    }
+
+    // FIREBASE REALTIME CONNECTION LOGIC (OTOMATIS UNTUK SETIAP SISWA)
+    function initFirebase() {
+      const storedConfigStr = localStorage.getItem('sppg_firebase_config');
+      let config = defaultFirebaseConfig;
+
+      if (storedConfigStr) {
+        try {
+          config = JSON.parse(storedConfigStr);
+        } catch(e) {
+          console.error("Gagal parse firebase config lokal:", e);
+        }
+      }
+
+      const inputElem = document.getElementById('firebaseConfigInput');
+      if (inputElem) {
+        inputElem.value = JSON.stringify(config, null, 2);
+      }
+
+      if (!config || !config.apiKey || config.apiKey.includes("EXAMPLE_KEY")) {
+        showOfflineStatus("Mode Lokal (Harap masukkan Kunci Firebase di defaultFirebaseConfig)");
+        return;
+      }
+
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(config);
+        }
+
+        dbRef = firebase.database().ref('sppg_data');
+
+        // REALTIME LISTENER: Langsung menyerap data terbaru dari Admin ke HP Siswa secara otomatis
+        dbRef.on('value', (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            if (data.menuDatabase) {
+              menuDatabase = data.menuDatabase;
+              localStorage.setItem('sppg_menu_db', JSON.stringify(menuDatabase));
+            }
+            if (data.headerLogos && Array.isArray(data.headerLogos)) {
+              headerLogos = data.headerLogos;
+              localStorage.setItem('sppg_header_logos', JSON.stringify(headerLogos));
+            }
+            renderHeaderLogos();
+            renderCategoryGrid();
+            updateDisplay();
+            showOnlineStatus();
+          } else {
+            showOfflineStatus("Cloud Terhubung (Menunggu Admin Menyimpan Data)");
+          }
+        }, (err) => {
+          console.error("Firebase read error:", err);
+          showOfflineStatus("Gagal membaca Cloud: " + err.message);
+        });
+
+      } catch (e) {
+        console.error("Firebase init exception:", e);
+        showOfflineStatus("Mode Lokal");
+      }
+    }
+
+    function showOnlineStatus() {
+      const statusText = document.getElementById('statusText');
+      const statusDot = document.getElementById('statusDot');
+      const tag = document.getElementById('firebaseStatusTag');
+
+      if(statusText) statusText.innerText = "Terhubung Cloud - Realtime Update Aktif";
+      if(statusDot) statusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse";
+      if(tag) {
+        tag.innerText = "✅ Terhubung Cloud Realtime";
+        tag.className = "text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 self-start sm:self-auto";
+      }
+    }
+
+    function showOfflineStatus(msg) {
+      const statusText = document.getElementById('statusText');
+      const statusDot = document.getElementById('statusDot');
+      const tag = document.getElementById('firebaseStatusTag');
+
+      if(statusText) statusText.innerText = msg || "Mode Lokal";
+      if(statusDot) statusDot.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
+      if(tag) {
+        tag.innerText = "Belum Terhubung Cloud";
+        tag.className = "text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 self-start sm:self-auto";
+      }
+    }
+
+    function saveFirebaseConfig() {
+      const val = document.getElementById('firebaseConfigInput').value.trim();
+      if (!val) {
+        alert("Masukkan teks konfigurasi Firebase terlebih dahulu!");
+        return;
+      }
+
+      const parsedConfig = parseFirebaseConfigInput(val);
+
+      if (!parsedConfig || !parsedConfig.apiKey) {
+        alert("Format Firebase Config tidak dapat dideteksi!\n\nPastikan teks yang disalin dari Firebase Console memiliki kunci 'apiKey' atau 'projectId'.");
+        return;
+      }
+
+      localStorage.setItem('sppg_firebase_config', JSON.stringify(parsedConfig, null, 2));
+      alert("✅ Berhasil! Konfigurasi Firebase berhasil disimpan ke perangkat ini.");
+      location.reload();
+    }
+
+    function disconnectFirebase() {
+      if (confirm("Apakah Anda yakin ingin menghapus konfigurasi cloud dan kembali ke mode lokal?")) {
+        localStorage.removeItem('sppg_firebase_config');
+        alert("Konfigurasi Firebase lokal telah dihapus.");
+        location.reload();
+      }
+    }
+
+    // Header Logo Logic (Supports 1 - 5 Logos)
+    function renderHeaderLogos() {
+      const container = document.getElementById('headerLogosContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      headerLogos.forEach((logoUrl, idx) => {
+        const logoFrame = document.createElement('div');
+        logoFrame.className = 'w-12 h-12 sm:w-16 sm:h-16 bg-white/15 p-1.5 sm:p-2 rounded-2xl border border-white/30 backdrop-blur-md shadow-md flex items-center justify-center shrink-0 transition hover:scale-105';
+        logoFrame.innerHTML = `
+          <img src="${logoUrl}" alt="Logo SPPG ${idx+1}" class="w-full h-full object-contain filter drop-shadow" onerror="this.onerror=null; this.src='https://placehold.co/150x150/ffffff/0284c7?text=LOGO+${idx+1}';">
+        `;
+        container.appendChild(logoFrame);
+      });
+    }
+
+    function renderAdminLogosList() {
+      const container = document.getElementById('adminLogosListContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const addBtn = document.getElementById('addLogoBtn');
+      if (addBtn) {
+        if (headerLogos.length >= 5) {
+          addBtn.classList.add('hidden');
+        } else {
+          addBtn.classList.remove('hidden');
+        }
+      }
+
+      headerLogos.forEach((logoUrl, index) => {
+        const card = document.createElement('div');
+        card.className = 'grid grid-cols-1 md:grid-cols-12 gap-4 items-center bg-slate-900/80 p-4 rounded-xl border border-slate-700 relative';
+        card.innerHTML = `
+          <div class="md:col-span-3 flex flex-col items-center justify-center bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <div class="w-16 h-16 bg-white/10 p-2 rounded-xl border border-white/20 flex items-center justify-center mb-1">
+              <img id="adminLogoPreview_${index}" src="${logoUrl}" alt="Pratinjau Logo ${index + 1}" class="max-h-full max-w-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/150x150/ffffff/0284c7?text=LOGO+${index + 1}';">
+            </div>
+            <span class="text-[11px] font-semibold text-amber-400">Logo Header #${index + 1}</span>
+          </div>
+
+          <div class="md:col-span-9 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <label class="cursor-pointer inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition">
+                <i class="fa-solid fa-upload text-amber-300"></i>
+                <span>Unggah Gambar Dari HP/PC</span>
+                <input type="file" accept="image/*" onchange="handleHeaderLogoUpload(event, ${index})" class="hidden">
+              </label>
+              
+              ${headerLogos.length > 1 ? `
+                <button type="button" onclick="removeHeaderLogoSlot(${index})" class="bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/40 font-semibold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1 transition">
+                  <i class="fa-solid fa-trash-can"></i> Hapus Logo Ini
+                </button>
+              ` : ''}
+            </div>
+
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Atau Gunakan URL Gambar / Nama File:</label>
+              <input type="text" id="adminLogoUrlInput_${index}" value="${logoUrl.startsWith('data:') ? '' : logoUrl}" oninput="updateHeaderLogoUrlInput(${index}, this.value)" placeholder="Contoh: logo2.png atau https://..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function handleHeaderLogoUpload(event, index) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Img = e.target.result;
+        headerLogos[index] = base64Img;
+        renderAdminLogosList();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updateHeaderLogoUrlInput(index, value) {
+      headerLogos[index] = value;
+      const preview = document.getElementById(`adminLogoPreview_${index}`);
+      if (preview) {
+        preview.src = value || 'https://placehold.co/150x150/ffffff/0284c7?text=LOGO+' + (index + 1);
+      }
+    }
+
+    function addHeaderLogoSlot() {
+      if (headerLogos.length >= 5) {
+        alert("Maksimal 5 logo header!");
+        return;
+      }
+      headerLogos.push('https://placehold.co/150x150/ffffff/0284c7?text=LOGO+' + (headerLogos.length + 1));
+      renderAdminLogosList();
+    }
+
+    function removeHeaderLogoSlot(index) {
+      if (headerLogos.length <= 1) {
+        alert("Minimal harus ada 1 logo header!");
+        return;
+      }
+      headerLogos.splice(index, 1);
+      renderAdminLogosList();
+    }
+
+    function saveHeaderLogoChanges() {
+      headerLogos = headerLogos.map((url, i) => url.trim() || `https://placehold.co/150x150/ffffff/0284c7?text=LOGO+${i+1}`);
+      localStorage.setItem('sppg_header_logos', JSON.stringify(headerLogos));
+      renderHeaderLogos();
+      renderAdminLogosList();
+
+      if (dbRef) {
+        dbRef.update({ headerLogos: headerLogos }).then(() => {
+          alert("✅ Semua Logo Header berhasil diperbarui dan disinkronkan ke cloud!");
+        }).catch((err) => {
+          alert("Logo diperbarui lokal, gagal sync cloud: " + err.message);
+        });
+      } else {
+        alert("Semua Logo Header berhasil diperbarui secara lokal!");
+      }
+    }
+
+    // View Navigation Control Logic
+    function hideAllViews() {
+      document.getElementById('frontendView').classList.add('hidden');
+      document.getElementById('loginView').classList.add('hidden');
+      document.getElementById('backendView').classList.add('hidden');
+    }
+
+    function switchToFrontend() {
+      hideAllViews();
+      document.getElementById('frontendView').classList.remove('hidden');
+      window.scrollTo(0,0);
+    }
+
+    function goToLoginView() {
+      hideAllViews();
+      document.getElementById('loginErrorMessage').classList.add('hidden');
+      document.getElementById('adminUsernameInput').value = '';
+      document.getElementById('adminPasswordInput').value = '';
+      document.getElementById('loginView').classList.remove('hidden');
+      window.scrollTo(0,0);
+    }
+
+    function handleAdminLogin(event) {
+      event.preventDefault();
+      const userVal = document.getElementById('adminUsernameInput').value;
+      const passVal = document.getElementById('adminPasswordInput').value;
+      
+      if (userVal === adminAuth.username && passVal === adminAuth.password) {
+        hideAllViews();
+        document.getElementById('backendView').classList.remove('hidden');
+        
+        document.getElementById('adminDatePicker').value = document.getElementById('datePicker').value;
+        document.getElementById('adminCategorySelect').value = selectedCategory;
+        
+        renderAdminLogosList();
+        loadAdminDataForSelection();
+        window.scrollTo(0,0);
+      } else {
+        document.getElementById('loginErrorMessage').classList.remove('hidden');
+      }
+    }
+
+    // Date formatting helper YYYY-MM-DD
+    function toISODateString(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function formatDate(date) {
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString('id-ID', options);
+    }
+
+    function formatShortDate(date) {
+      const day = date.getDate();
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
+      return `${day} ${monthNames[date.getMonth()]}`;
+    }
+
+    function getTodayDate() {
+      return new Date();
+    }
+
+    function initDatePicker() {
+      const datePicker = document.getElementById('datePicker');
+      const today = getTodayDate();
+      
+      const maxDateStr = toISODateString(today);
+      
+      const minDate = new Date(today);
+      minDate.setDate(today.getDate() - 7);
+      const minDateStr = toISODateString(minDate);
+
+      datePicker.max = maxDateStr;
+      datePicker.min = minDateStr;
+      datePicker.value = maxDateStr;
+
+      renderQuickDateButtons(today);
+    }
+
+    function renderQuickDateButtons(today) {
+      const container = document.getElementById('quickDateContainer');
+      const selectedValue = document.getElementById('datePicker').value;
+      container.innerHTML = '';
+
+      for (let i = 0; i <= 7; i++) {
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+        
+        const dateStr = toISODateString(d);
+        const isToday = i === 0;
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => selectDate(dateStr);
+        btn.className = `quick-date-btn flex flex-col items-center justify-center px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition border ${
+          dateStr === selectedValue 
+            ? 'bg-sky-600 text-white border-sky-600 shadow-xs' 
+            : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-sky-50'
+        }`;
+
+        btn.innerHTML = `
+          <span>${isToday ? 'Hari Ini' : d.toLocaleDateString('id-ID', { weekday: 'short' })}</span>
+          <span class="text-[11px] opacity-80">${formatShortDate(d)}</span>
+        `;
+        container.appendChild(btn);
+      }
+    }
+
+    function selectDate(dateStr) {
+      document.getElementById('datePicker').value = dateStr;
+      updateDisplay();
+    }
+
+    function renderCategoryGrid() {
+      const grid = document.getElementById('categoryGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      Object.keys(menuDatabase).forEach(key => {
+        const item = menuDatabase[key];
+        const isSelected = key === selectedCategory;
+
+        const card = document.createElement('div');
+        card.onclick = () => switchCategory(key);
+        card.className = `cursor-pointer rounded-2xl p-4 transition-all duration-300 flex flex-col items-center justify-center text-center border relative overflow-hidden ${
+          isSelected 
+            ? 'bg-sky-50 border-sky-500 ring-2 ring-sky-500 shadow-md transform -translate-y-1' 
+            : 'bg-slate-50/80 border-slate-200 hover:border-sky-300 hover:bg-white hover:shadow-xs hover:-translate-y-0.5'
+        }`;
+
+        card.innerHTML = `
+          <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${item.bgGradient || 'from-sky-500 to-blue-600'} text-white flex items-center justify-center text-2xl sm:text-3xl shadow-sm mb-3">
+            <i class="fa-solid ${item.icon}"></i>
+          </div>
+
+          <div class="font-bold text-xs sm:text-sm ${isSelected ? 'text-sky-800' : 'text-slate-700'}">
+            ${item.title}
+          </div>
+
+          ${isSelected ? `
+            <div class="absolute top-2 right-2 bg-sky-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] shadow-xs">
+              <i class="fa-solid fa-check"></i>
+            </div>
+          ` : ''}
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function switchCategory(categoryKey) {
+      selectedCategory = categoryKey;
+      renderCategoryGrid();
+      updateDisplay();
+    }
+
+    function updateDisplay() {
+      const dateVal = document.getElementById('datePicker').value;
+      const [year, month, day] = dateVal.split('-').map(Number);
+      const dateObj = new Date(year, month - 1, day);
+
+      document.getElementById('selectedDateDisplay').innerText = formatDate(dateObj);
+      renderQuickDateButtons(getTodayDate());
+
+      const data = menuDatabase[selectedCategory];
+      if (!data) return;
+
+      document.getElementById('categoryTitle').innerText = `Menu ${data.title}`;
+      document.getElementById('categoryDesc').innerText = data.desc;
+      document.getElementById('categoryIcon').className = `fa-solid ${data.icon}`;
+      
+      const bannerImg = document.getElementById('categoryBannerImg');
+      if (bannerImg) {
+        bannerImg.src = data.image;
+        bannerImg.onerror = function() {
+          this.onerror = null;
+          this.src = data.fallbackImg || 'https://placehold.co/600x300/0284c7/ffffff?text=Foto+Menu+Makanan';
+        };
+      }
+      
+      const bannerLabel = document.getElementById('categoryBannerLabel');
+      if (bannerLabel) {
+        bannerLabel.innerText = `Sajian Makanan Bergizi - ${data.title}`;
+      }
+
+      // Menu List
+      const menuList = document.getElementById('menuList');
+      menuList.innerHTML = '';
+
+      if (data.items && data.items.length > 0) {
+        data.items.forEach(item => {
+          const li = document.createElement('li');
+          li.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-sky-200 transition';
+          li.innerHTML = `
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center text-sm shrink-0">
+                <i class="fa-solid ${item.icon || 'fa-utensils'}"></i>
+              </div>
+              <span class="font-semibold text-slate-700 text-sm">${item.name}</span>
+            </div>
+            <span class="text-xs font-bold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-md border border-sky-100">
+              ${item.amount}
+            </span>
+          `;
+          menuList.appendChild(li);
+        });
+      } else {
+        menuList.innerHTML = '<li class="text-xs text-slate-400 italic text-center py-4">Belum ada hidangan yang diinputkan.</li>';
+      }
+
+      // Nutrition Data
+      document.getElementById('nutritionNote').querySelector('span').innerText = data.note;
+
+      const nutritionContainer = document.getElementById('nutritionContainer');
+      nutritionContainer.innerHTML = '';
+
+      const nutData = [
+        { label: 'Energi', val: `${data.nutrition.calories} Kcal`, pct: data.nutrition.energyPercent || 70, color: 'bg-amber-400' },
+        { label: 'Protein', val: data.nutrition.protein.val, pct: data.nutrition.protein.percent, color: 'bg-emerald-400' },
+        { label: 'Karbohidrat', val: data.nutrition.carbs.val, pct: data.nutrition.carbs.percent, color: 'bg-sky-400' },
+        { label: 'Lemak', val: data.nutrition.fat.val, pct: data.nutrition.fat.percent, color: 'bg-amber-500' },
+        { label: 'Serat', val: data.nutrition.fiber.val, pct: data.nutrition.fiber.percent, color: 'bg-indigo-400' }
+      ];
+
+      nutData.forEach(n => {
+        const div = document.createElement('div');
+        div.className = 'space-y-1';
+        div.innerHTML = `
+          <div class="flex justify-between text-xs font-medium">
+            <span class="text-slate-300 flex items-center gap-1.5">
+              ${n.label === 'Energi' ? '<i class="fa-solid fa-bolt text-amber-400 text-[11px]"></i>' : ''}
+              ${n.label}
+            </span>
+            <span class="text-white font-bold">${n.val}</span>
+          </div>
+          <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
+            <div class="${n.color} h-full rounded-full transition-all duration-500" style="width: ${n.pct}%"></div>
+          </div>
+        `;
+        nutritionContainer.appendChild(div);
+      });
+    }
+
+    // ADMIN BACKEND LOGIC
+    let currentAdminItems = [];
+
+    function loadAdminDataForSelection() {
+      const catKey = document.getElementById('adminCategorySelect').value;
+      const data = menuDatabase[catKey];
+      if (!data) return;
+
+      document.getElementById('adminImgUrl').value = data.image || '';
+      document.getElementById('adminDesc').value = data.desc || '';
+      document.getElementById('adminCalories').value = data.nutrition.calories || '';
+      document.getElementById('adminEnergyPct').value = data.nutrition.energyPercent || 70;
+
+      document.getElementById('adminProteinVal').value = data.nutrition.protein.val || '';
+      document.getElementById('adminProteinPct').value = data.nutrition.protein.percent || 0;
+
+      document.getElementById('adminCarbsVal').value = data.nutrition.carbs.val || '';
+      document.getElementById('adminCarbsPct').value = data.nutrition.carbs.percent || 0;
+
+      document.getElementById('adminFatVal').value = data.nutrition.fat.val || '';
+      document.getElementById('adminFatPct').value = data.nutrition.fat.percent || 0;
+
+      document.getElementById('adminFiberVal').value = data.nutrition.fiber.val || '';
+      document.getElementById('adminFiberPct').value = data.nutrition.fiber.percent || 0;
+
+      document.getElementById('adminNote').value = data.note || '';
+
+      document.getElementById('changeUsernameInput').value = adminAuth.username;
+      document.getElementById('changePasswordInput').value = adminAuth.password;
+
+      updateImagePreview(data.image, data.fallbackImg);
+
+      currentAdminItems = JSON.parse(JSON.stringify(data.items || []));
+      renderAdminMenuList();
+    }
+
+    function handleImageFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Img = e.target.result;
+        document.getElementById('adminImgUrl').value = base64Img;
+        updateImagePreview(base64Img);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updateImagePreviewFromInput() {
+      const val = document.getElementById('adminImgUrl').value;
+      updateImagePreview(val);
+    }
+
+    function updateImagePreview(src, fallbackSrc) {
+      const imgElem = document.getElementById('adminImgPreview');
+      if (src) {
+        imgElem.src = src;
+        imgElem.onerror = function() {
+          this.onerror = null;
+          this.src = fallbackSrc || 'https://placehold.co/600x300/0284c7/ffffff?text=Foto+Menu+Makanan';
+        };
+      } else {
+        imgElem.src = fallbackSrc || 'https://placehold.co/600x300/0284c7/ffffff?text=Foto+Menu+Makanan';
+      }
+    }
+
+    function renderAdminMenuList() {
+      const listContainer = document.getElementById('adminMenuList');
+      listContainer.innerHTML = '';
+
+      if (currentAdminItems.length === 0) {
+        listContainer.innerHTML = '<p class="text-xs text-slate-400 italic">Belum ada item hidangan. Klik "Tambah Bahan" untuk menambah.</p>';
+        return;
+      }
+
+      currentAdminItems.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-2 bg-slate-900/90 p-2.5 rounded-xl border border-slate-700';
+        row.innerHTML = `
+          <input type="text" value="${item.name}" onchange="updateAdminItemField(${index}, 'name', this.value)" placeholder="Nama makanan" class="w-1/2 bg-slate-800 border border-slate-600 rounded-lg p-2 text-xs text-white">
+          <input type="text" value="${item.amount}" onchange="updateAdminItemField(${index}, 'amount', this.value)" placeholder="Porsi / Ukuran" class="w-1/3 bg-slate-800 border border-slate-600 rounded-lg p-2 text-xs text-white">
+          <input type="text" value="${item.icon || 'fa-utensils'}" onchange="updateAdminItemField(${index}, 'icon', this.value)" placeholder="Ikon" class="w-1/4 bg-slate-800 border border-slate-600 rounded-lg p-2 text-xs text-white font-mono">
+          <button onclick="removeAdminMenuItem(${index})" type="button" class="text-red-400 hover:text-red-300 p-2 text-sm" title="Hapus Item">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        `;
+        listContainer.appendChild(row);
+      });
+    }
+
+    function updateAdminItemField(index, field, value) {
+      if (currentAdminItems[index]) {
+        currentAdminItems[index][field] = value;
+      }
+    }
+
+    function addAdminMenuItem() {
+      currentAdminItems.push({
+        name: "Hidangan Baru",
+        amount: "1 Porsi",
+        icon: "fa-utensils"
+      });
+      renderAdminMenuList();
+    }
+
+    function removeAdminMenuItem(index) {
+      currentAdminItems.splice(index, 1);
+      renderAdminMenuList();
+    }
+
+    function saveAccountCredentials() {
+      const newU = document.getElementById('changeUsernameInput').value.trim();
+      const newP = document.getElementById('changePasswordInput').value.trim();
+
+      if (!newU || !newP) {
+        alert("Username dan Password tidak boleh kosong!");
+        return;
+      }
+
+      adminAuth = { username: newU, password: newP };
+      localStorage.setItem('sppg_admin_auth', JSON.stringify(adminAuth));
+      alert("Username dan Password Admin berhasil diperbarui!");
+    }
+
+    function saveAdminChanges() {
+      const catKey = document.getElementById('adminCategorySelect').value;
+      
+      menuDatabase[catKey].image = document.getElementById('adminImgUrl').value;
+      menuDatabase[catKey].desc = document.getElementById('adminDesc').value;
+      menuDatabase[catKey].items = currentAdminItems;
+
+      menuDatabase[catKey].nutrition.calories = document.getElementById('adminCalories').value || "0";
+      menuDatabase[catKey].nutrition.energyPercent = parseInt(document.getElementById('adminEnergyPct').value) || 70;
+
+      menuDatabase[catKey].nutrition.protein.val = document.getElementById('adminProteinVal').value;
+      menuDatabase[catKey].nutrition.protein.percent = parseInt(document.getElementById('adminProteinPct').value) || 0;
+
+      menuDatabase[catKey].nutrition.carbs.val = document.getElementById('adminCarbsVal').value;
+      menuDatabase[catKey].nutrition.carbs.percent = parseInt(document.getElementById('adminCarbsPct').value) || 0;
+
+      menuDatabase[catKey].nutrition.fat.val = document.getElementById('adminFatVal').value;
+      menuDatabase[catKey].nutrition.fat.percent = parseInt(document.getElementById('adminFatPct').value) || 0;
+
+      menuDatabase[catKey].nutrition.fiber.val = document.getElementById('adminFiberVal').value;
+      menuDatabase[catKey].nutrition.fiber.percent = parseInt(document.getElementById('adminFiberPct').value) || 0;
+
+      menuDatabase[catKey].note = document.getElementById('adminNote').value;
+
+      saveStorageDB();
+
+      if (dbRef) {
+        dbRef.update({
+          menuDatabase: menuDatabase,
+          headerLogos: headerLogos,
+          lastUpdated: new Date().toISOString()
+        }).then(() => {
+          alert("✅ Perubahan menu berhasil disimpan dan otomatis tersalurkan ke seluruh HP Siswa!");
+        }).catch((err) => {
+          alert("⚠️ Disimpan secara lokal, namun gagal sync ke cloud: " + err.message);
+        });
+      } else {
+        alert("✅ Perubahan menu disimpan secara lokal.");
+      }
+
+      selectedCategory = catKey;
+      renderCategoryGrid();
+      updateDisplay();
+    }
+
+    function resetDataToDefault() {
+      if (confirm("Apakah Anda yakin ingin mengembalikan semua data ke pengaturan awal?")) {
+        menuDatabase = JSON.parse(JSON.stringify(defaultMenuDatabase));
+        adminAuth = JSON.parse(JSON.stringify(defaultCredentials));
+        headerLogos = [...defaultHeaderLogos];
+        
+        localStorage.removeItem('sppg_menu_db');
+        localStorage.removeItem('sppg_admin_auth');
+        localStorage.removeItem('sppg_header_logo');
+        localStorage.removeItem('sppg_header_logos');
+
+        if (dbRef) {
+          dbRef.set({
+            menuDatabase: menuDatabase,
+            headerLogos: headerLogos
+          });
+        }
+
+        renderHeaderLogos();
+        renderCategoryGrid();
+        updateDisplay();
+        renderAdminLogosList();
+        loadAdminDataForSelection();
+        alert("Data dan akun admin berhasil di-reset ke default!");
+      }
+    }
+
+    // Event Listeners
+    document.getElementById('datePicker').addEventListener('change', updateDisplay);
+    document.getElementById('todayBtn').addEventListener('click', () => {
+      const todayStr = toISODateString(getTodayDate());
+      document.getElementById('datePicker').value = todayStr;
+      updateDisplay();
+    });
+
+    // On Load Initializer (Siswa langsung otomatis terhubung ke Firebase)
+    window.onload = function() {
+      renderHeaderLogos();
+      initDatePicker();
+      renderCategoryGrid();
+      updateDisplay();
+      initFirebase();
+    };
+  </script>
+</body>
+</html>
